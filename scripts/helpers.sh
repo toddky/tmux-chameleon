@@ -13,7 +13,8 @@ function tmux-get-option() {
 
 function chameleon-set-theme() {
 	color=$1
-	echo Generate $1 scheme
-	echo tmux source-file $HELPERS_DIR/chameleon-theme.tmux
+	echo TODO: Generate $1 scheme
+	echo TODO: tmux source-file $HELPERS_DIR/chameleon-theme.tmux
+	tmux source-file $HELPERS_DIR/status-bar.tmux
 }
 
