@@ -41,9 +41,6 @@ set-window-option -g allow-rename off
 set-window-option -g automatic-rename off
 set-window-option -g automatic-rename-format "unnamed"
 
-# Status activity format
-set-window-option -g window-status-activity-attr none
-
 # Active window format
 set-window-option -g window-status-current-format "$_tmux_window_index:#W$_tmux_window_activity$_tmux_window_zoomed"
 
