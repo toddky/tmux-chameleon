@@ -1,20 +1,26 @@
 #!/usr/bin/env bash
 
-# Variables
-job=$LSB_BATCH_JID
-host=$(hostname --short)
+# Default values
+host="$(hostname --short)"
+color=colour10
 
-# --- LSF Environment ---
-if [[ -n $job ]]; then
+# LSF environment
+if [[ -n "$LSB_BATCH_JID" ]]; then
+	color=colour11
+	host="$LSB_BATCH_JID"
 	# TODO: time_left=$(bjobs -noheader -o time_left $job)
-	echo "#[fg=colour11][$job]#[fg=default]"
 
-# --- Weird Host ---
+# Weird host
 elif [[ $host =~ ^s110 ]]; then
-	echo "#[fg=colour9][$(hostname --short)]#[fg=default]"
-
-# --- Regular Host ---
-else
-	echo "#[fg=colour10][$(hostname --short)]#[fg=default]"
+	color=colour9
 fi
+
+# Print host information
+echo -n "#[fg=$color]<$host"
+
+# Linux Standard Base (LSB) information
+echo -n "($(lsb_release -rs))"
+
+# End of segment
+echo '>#[fg=default]'
 
