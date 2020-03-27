@@ -16,11 +16,11 @@ elif [[ $host =~ ^s110 ]]; then
 fi
 
 # Print host information
-echo -n "#[fg=$color]<$host"
+echo -n "#[fg=$color][$host"
 
 # Linux Standard Base (LSB) information
 echo -n "($(lsb_release -rs))"
 
 # End of segment
-echo '>#[fg=default]'
+echo ']#[fg=default]'
 
