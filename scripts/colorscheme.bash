@@ -14,7 +14,7 @@ declare -r version=3.0
 red='15 210 203 9 160 52'
 yellow='15 229 227 190 11 94'
 green='15 156 82 46 70 22'
-blue='15 159 14 39 33 19'
+blue='15 159 14 39 33 26'
 purple='15 147 141 129 93 53'
 black='239 243 249 249 243 239'
 
@@ -30,7 +30,7 @@ if [[ -n $verbose ]]; then
 	function cprint() {
 		local color=$1 value
 		value=$(eval echo \$$color)
-		echo "\x1b[38;5;${value}m${color}"
+		echo -e "\x1b[38;5;${value}m${color}\e[0m"
 	}
 	cprint white
 	cprint lightest
@@ -44,15 +44,19 @@ fi
 # --- Set Option with Brute Force ---
 function tmux_set_opt() {
 	local option=$1 fg=${2:-default} bg=${3:-default}
-	tmux set-option -g $option-fg $fg
-	tmux set-option -g $option-bg $bg
-	tmux set-option -g $option-style bg=$bg,fg=$fg
+	(
+		tmux set-option -g $option-fg $fg
+		tmux set-option -g $option-bg $bg
+		tmux set-option -g $option-style bg=$bg,fg=$fg
+	) 2>/dev/null
 }
 function tmux_set_window_opt() {
 	local option=$1 fg=${2:-default} bg=${3:-default}
-	tmux set-window-option -g $option-fg $fg
-	tmux set-window-option -g $option-bg $bg
-	tmux set-window-option -g $option-style bg=$bg,fg=$fg
+	(
+		tmux set-window-option -g $option-fg $fg
+		tmux set-window-option -g $option-bg $bg
+		tmux set-window-option -g $option-style bg=$bg,fg=$fg
+	) 2>/dev/null
 }
 
 
