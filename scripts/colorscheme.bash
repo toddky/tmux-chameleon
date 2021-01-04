@@ -42,7 +42,8 @@ fi
 
 
 # --- Set Option with Brute Force ---
-function tmux_set_opt() {
+# TODO: '[[ $(echo "$TMUX_VERSION >= 2.9" | bc) -eq 1 ]]'
+function tmux_set_style() {
 	local option=$1 fg=${2:-default} bg=${3:-default}
 	(
 		tmux set-option -g $option-fg $fg
@@ -50,7 +51,7 @@ function tmux_set_opt() {
 		tmux set-option -g $option-style bg=$bg,fg=$fg
 	) 2>/dev/null
 }
-function tmux_set_window_opt() {
+function tmux_set_window_style() {
 	local option=$1 fg=${2:-default} bg=${3:-default}
 	(
 		tmux set-window-option -g $option-fg $fg
@@ -63,18 +64,17 @@ function tmux_set_window_opt() {
 # ==============================================================================
 # MAIN
 # ==============================================================================
-function main() {
+# Set pane border colors
+tmux_set_style pane-border        colour$darkest
+tmux_set_style pane-active-border colour$medium
 
-	# Set pane border colors
-	tmux_set_opt pane-border        colour$darkest
-	tmux_set_opt pane-active-border colour$medium
+# Set status bar colors
+tmux_set_style        status                colour$medium
+tmux_set_window_style window-status         colour$white
+tmux_set_window_style window-status-current colour$light
+tmux_set_window_style window-status-last    colour$lightest
 
-	# Set status bar colors
-	tmux_set_opt        status                colour$medium
-	tmux_set_window_opt window-status         colour$white
-	tmux_set_window_opt window-status-current colour$light
-	tmux_set_window_opt window-status-last    colour$lightest
-}
-
-main
+# Set window colors
+tmux_set_style window        colour251 colour232
+tmux_set_style window-active colour255 colour233
 
