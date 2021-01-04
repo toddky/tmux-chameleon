@@ -18,6 +18,11 @@ blue='15 159 14 39 33 26'
 purple='15 147 141 129 93 53'
 black='239 243 249 249 243 239'
 
+colour_black_light=colour232
+colour_black_dark=colour232
+colour_white_light=colour255
+colour_white_dark=colour251
+
 default=$blue
 [[ -n $LSB_BATCH_JID ]] && default=$yellow
 
@@ -75,6 +80,9 @@ tmux_set_window_style window-status-current colour$light
 tmux_set_window_style window-status-last    colour$lightest
 
 # Set window colors
-tmux_set_style window        colour251 colour232
-tmux_set_style window-active colour255 colour233
+tmux_set_style window        $colour_white_dark  $colour_black_dark
+tmux_set_style window-active $colour_white_light $colour_black_light
+
+# Set message colors
+tmux_set_style message colour$light $colour_black_dark
 
