@@ -1,5 +1,5 @@
-#!bash
-declare -r HELPERS_DIR=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
+#!/usr/bin/env bash
+declare -r HELPERS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd)"
 
 function tmux-get-option() {
 	local option="$1" default_value="$2" option_value
