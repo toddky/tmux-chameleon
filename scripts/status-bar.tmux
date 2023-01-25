@@ -11,6 +11,13 @@ set-option -g status-position bottom
 # Refresh rate (seconds)
 set-option -g status-interval 15
 
+# Hide status bar if if only a single window is open
+# https://schauderbasis.de/posts/hide_tmux_status_bar_if_its_not_needed/
+set-hook -g after-new-window      'if "[ #{session_windows} -gt 1 ]" "set status on"'
+set-hook -g after-kill-pane       'if "[ #{session_windows} -lt 2 ]" "set status off"'
+set-hook -g pane-exited           'if "[ #{session_windows} -lt 2 ]" "set status off"'
+set-hook -g window-layout-changed 'if "[ #{session_windows} -lt 2 ]" "set status off"'
+
 
 # ==============================================================================
 # LEFT
