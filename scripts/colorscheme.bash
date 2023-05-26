@@ -23,7 +23,7 @@ colour_black_dark=colour232
 colour_white_light=colour255
 colour_white_dark=colour251
 
-default="$purple"
+default="$blue"
 [[ -n $LSB_BATCH_JID ]] && default=$yellow
 
 # Set colorscheme
