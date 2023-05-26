@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # --- Parse Arguments ---
-colorscheme=${1:-default}
-verbose=$2
+colorscheme="${1:-default}"
+verbose="$2"
 
 # TODO: Use actual version calculation
 #declare -r version=$(tmux -V | cut -c 6-8)
@@ -23,12 +23,11 @@ colour_black_dark=colour232
 colour_white_light=colour255
 colour_white_dark=colour251
 
-default=$blue
+default="$purple"
 [[ -n $LSB_BATCH_JID ]] && default=$yellow
 
 # Set colorscheme
 read -r white lightest light medium dark darkest <<<$(eval echo \$$colorscheme)
-
 
 # --- Print Colors ---
 if [[ -n $verbose ]]; then
@@ -45,23 +44,22 @@ if [[ -n $verbose ]]; then
 	cprint darkest
 fi
 
-
 # --- Set Option with Brute Force ---
 # TODO: '[[ $(echo "$TMUX_VERSION >= 2.9" | bc) -eq 1 ]]'
 function tmux_set_style() {
-	local option=$1 fg=${2:-default} bg=${3:-default}
+	local option="$1" fg="${2:-default}" bg="${3:-default}"
 	(
-		tmux set-option -g $option-fg $fg
-		tmux set-option -g $option-bg $bg
-		tmux set-option -g $option-style bg=$bg,fg=$fg
+		tmux set-option -g $option-fg "$fg"
+		tmux set-option -g $option-bg "$bg"
+		tmux set-option -g $option-style "bg=$bg,fg=$fg"
 	) 2>/dev/null
 }
 function tmux_set_window_style() {
-	local option=$1 fg=${2:-default} bg=${3:-default}
+	local option="$1" fg="${2:-default}" bg="${3:-default}"
 	(
-		tmux set-window-option -g $option-fg $fg
-		tmux set-window-option -g $option-bg $bg
-		tmux set-window-option -g $option-style bg=$bg,fg=$fg
+		tmux set-window-option -g $option-fg "$fg"
+		tmux set-window-option -g $option-bg "$bg"
+		tmux set-window-option -g $option-style "bg=$bg,fg=$fg"
 	) 2>/dev/null
 }
 
@@ -84,5 +82,5 @@ tmux_set_style window        $colour_white_dark  $colour_black_dark
 tmux_set_style window-active $colour_white_light $colour_black_light
 
 # Set message colors
-tmux_set_style message colour$light $colour_black_dark
+tmux_set_style message "colour$light" "$colour_black_dark"
 

@@ -5,7 +5,7 @@ source $SCRIPTS_DIR/helpers.sh
 
 function main() {
 	local color
-	color=$(tmux-get-option '@chameleon-color' 'blue')
+	color=blue
 	chameleon-set-theme $color
 	exit 0
 }
