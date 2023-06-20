@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Default values
-host="$(hostname --short)"
+host="$(hostname -s)"
 color=colour10
 
 # LSF environment
@@ -19,7 +19,9 @@ fi
 echo -n "#[fg=$color][$host"
 
 # Linux Standard Base (LSB) information
-echo -n "($(lsb_release -rs))"
+if command -v lsb_release &>/dev/null; then
+	echo -n "($(lsb_release -rs))"
+fi
 
 # End of segment
 echo ']#[fg=default]'
