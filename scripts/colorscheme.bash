@@ -8,6 +8,7 @@ verbose="$2"
 #declare -r version=$(tmux -V | cut -c 6-8)
 declare -r version=3.0
 
+
 # ==============================================================================
 # COLORSCHEMES
 # ==============================================================================
@@ -83,4 +84,63 @@ tmux_set_style window-active $colour_white_light $colour_black_light
 
 # Set message colors
 tmux_set_style message "colour$light" "$colour_black_dark"
+
+# Position
+tmux set-option -g status-position bottom
+
+# Refresh rate (seconds)
+tmux set-option -g status-interval 15
+
+# Hide status bar if if only a single window is open
+# https://schauderbasis.de/posts/hide_tmux_status_bar_if_its_not_needed/
+tmux set-hook -g after-new-window      'if "[ #{session_windows} -gt 1 ]" "set status on"'
+tmux set-hook -g after-kill-pane       'if "[ #{session_windows} -lt 2 ]" "set status off"'
+tmux set-hook -g pane-exited           'if "[ #{session_windows} -lt 2 ]" "set status off"'
+tmux set-hook -g window-layout-changed 'if "[ #{session_windows} -lt 2 ]" "set status off"'
+
+
+# ==============================================================================
+# LEFT
+# ==============================================================================
+bold_session="#[bold]#{session_name}#[nobold]"
+tmux set-option -g status-left "#[nobold][#{session_id}:$bold_session]"
+tmux set-option -g status-left-length 32
+
+
+# ==============================================================================
+# CENTER
+# ==============================================================================
+tmux set-window-option -g status-justify centre
+
+# Window status format
+index="#[bold]#I#[nobold]"
+activity="#{?window_activity_flag,#[fg=colour9]!#[fg=default],}"
+zoomed="#{?window_zoomed_flag,#[fg=default]*,}"
+tmux set-window-option -g window-status-format "$index:#W$activity$zoomed"
+tmux set-window-option -g window-status-separator " "
+
+# Prevent escape sequences from renaming window
+tmux set-window-option -g allow-rename off
+
+# Disable automatic renaming
+tmux set-window-option -g automatic-rename off
+tmux set-window-option -g automatic-rename-format "unnamed"
+
+# Active window format
+tmux set-window-option -g window-status-current-format "$index:#W$activity$zoomed"
+
+
+# ==============================================================================
+# RIGHT
+# ==============================================================================
+# TODO: Remove hardcoded paths
+_tmux_chameleon_path="~/.tmux/plugins/tmux-chameleon"
+size="[#{client_width}x#{client_height}]"
+_tmux_cpu_usage="#($_tmux_chameleon_path/scripts/cpu-usage.bash)"
+host="#($_tmux_chameleon_path/scripts/host.bash)"
+memory="#($_tmux_chameleon_path/scripts/mem-usage.bash)"
+time="#[fg=$tmux_white][#(date +%H:%M)]#[fg=default]"
+tmux_version="[#{version}]"
+tmux set-option -g status-right "$memory$_tmux_cpu_usage$size$tmux_version$host$time"
+tmux set-option -g status-right-length 60
 

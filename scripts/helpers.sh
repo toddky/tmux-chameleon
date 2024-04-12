@@ -17,6 +17,5 @@ function chameleon-set-theme() {
 	#echo TODO: tmux source-file $HELPERS_DIR/chameleon-theme.tmux
 	"$HELPERS_DIR/colorscheme.bash" "$color"
 	tmux source-file "$HELPERS_DIR/window.tmux"
-	tmux source-file "$HELPERS_DIR/status-bar.tmux"
 }
 
