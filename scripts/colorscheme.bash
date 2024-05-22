@@ -19,7 +19,7 @@ blue='15 159 14 39 33 26'
 purple='15 147 141 129 93 53'
 black='239 243 249 249 243 239'
 
-colour_black_light=colour232
+colour_black_light=colour233
 colour_black_dark=colour232
 colour_white_light=colour255
 colour_white_dark=colour251
@@ -100,7 +100,7 @@ tmux set-hook -g window-layout-changed 'if "[ #{session_windows} -lt 2 ]" "set s
 
 
 # ==============================================================================
-# LEFT
+# STATUS BAR LEFT
 # ==============================================================================
 bold_session="#[bold]#{session_name}#[nobold]"
 tmux set-option -g status-left "#[nobold][#{session_id}:$bold_session]"
@@ -108,7 +108,7 @@ tmux set-option -g status-left-length 32
 
 
 # ==============================================================================
-# CENTER
+# STATUS BAR CENTER
 # ==============================================================================
 tmux set-window-option -g status-justify centre
 
@@ -131,7 +131,7 @@ tmux set-window-option -g window-status-current-format "$index:#W$activity$zoome
 
 
 # ==============================================================================
-# RIGHT
+# STATUS BAR RIGHT
 # ==============================================================================
 # TODO: Remove hardcoded paths
 _tmux_chameleon_path="~/.tmux/plugins/tmux-chameleon"
@@ -143,4 +143,45 @@ time="#[fg=$tmux_white][#(date +%H:%M)]#[fg=default]"
 tmux_version="[#{version}]"
 tmux set-option -g status-right "$memory$_tmux_cpu_usage$size$tmux_version$host$time"
 tmux set-option -g status-right-length 60
+
+
+# ==============================================================================
+# WINDOWS
+# ==============================================================================
+
+# Start with window number 1
+tmux set-window-option -g base-index 1
+
+# Automatically renumber windows
+tmux set-option -g renumber-windows on
+
+
+# ==============================================================================
+# PANES
+# ==============================================================================
+
+# --- Base Index ---
+tmux set-window-option -g pane-base-index 1
+
+# --- Window Format ---
+tmux set-option -g window-style "bg=$colour_black_dark,fg=$colour_white_dark"
+tmux set-option -g window-active-style "bg=$colour_black_light,fg=$colour_white_light"
+
+# Red
+tmux_red=colour160
+
+# --- Border ---
+_tmux_sync_text="#[fg=$tmux_red][SYNC]#[fg=default]"
+_tmux_sync_indicator="#{?pane_synchronized,$_tmux_sync_text,}"
+_tmux_prefix_text="#[fg=$tmux_red][PREFIX]#[fg=default]"
+_tmux_prefix_indicator="#{?client_prefix,$_tmux_prefix_text,}"
+_tmux_readonly_text="#[fg=$tmux_red][READONLY]#[fg=default]"
+_tmux_readonly_indicator="#{?pane_input_off,$_tmux_readonly_text,}"
+_tmux_pane_size="[#{pane_width}x#{pane_height}]"
+_tmux_mode_text="#[fg=$tmux_yellow][#{pane_mode}]#[fg=default]"
+_tmux_mode_indicator="#{?pane_in_mode,$_tmux_mode_text,$_tmux_pane_size}"
+_tmux_pane_path="#[bold]#{pane_current_path}"
+
+tmux set-window-option -g pane-border-status bottom
+tmux set-window-option -g pane-border-format "$_tmux_prefix_indicator$_tmux_readonly_indicator$_tmux_sync_indicator$_tmux_mode_indicator $_tmux_pane_path"
 

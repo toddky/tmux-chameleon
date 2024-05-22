@@ -15,5 +15,4 @@ function tmux-get-option() {
 
 color=blue
 "$SCRIPTS_DIR/colorscheme.bash" "$color"
-tmux source-file "$SCRIPTS_DIR/window.tmux"
 
