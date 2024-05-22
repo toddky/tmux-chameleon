@@ -15,6 +15,11 @@ elif [[ $host =~ ^s110 ]]; then
 	color=colour9
 fi
 
+# Print just host
+# No longer care about LSB information
+echo "#[fg=$color][$host]#[fg=default]"
+exit
+
 # Print host information
 echo -n "#[fg=$color][$host"
 
