@@ -36,6 +36,9 @@ pidle=$(( 100 * (${new_usage[1]}-${usage[1]}) / (${new_usage[0]}-${usage[0]}) ))
 # Get total percent usage (100% - idle%)
 pusage=$((100-$pidle))
 
+# REVISIT: Another way to get percentag
+#percent=$(LC_NUMERIC=en_US.UTF-8 top -bn2 -d 0.01 | grep "Cpu(s)" | tail -1 | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}')
+
 # Format color based on usage
 if [[ $pusage -lt 40 ]]; then
 	color=10
