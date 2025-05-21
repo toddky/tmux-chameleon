@@ -169,6 +169,7 @@ tmux set-option -g window-active-style "bg=$colour_black_light,fg=$colour_white_
 
 # Red
 tmux_red=colour160
+tmux_yellow=colour220
 
 # --- Border ---
 _tmux_sync_text="#[fg=$tmux_red][SYNC]#[fg=default]"
@@ -177,7 +178,7 @@ _tmux_prefix_text="#[fg=$tmux_red][PREFIX]#[fg=default]"
 _tmux_prefix_indicator="#{?client_prefix,$_tmux_prefix_text,}"
 _tmux_readonly_text="#[fg=$tmux_red][READONLY]#[fg=default]"
 _tmux_readonly_indicator="#{?pane_input_off,$_tmux_readonly_text,}"
-_tmux_pane_size="[#{pane_width}x#{pane_height}]"
+_tmux_pane_size="[#{pane_id}][#{pane_width}x#{pane_height}]"
 _tmux_mode_text="#[fg=$tmux_yellow][#{pane_mode}]#[fg=default]"
 _tmux_mode_indicator="#{?pane_in_mode,$_tmux_mode_text,$_tmux_pane_size}"
 _tmux_pane_path="#[bold]#{pane_current_path}"
