@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # https://github.com/chubin/wttr.in
 
+# https://github.com/2KAbhishek/tmux2k/blob/main/scripts/weather.sh
 declare -A weather_icons=(
     ["Clear"]="󰖙"
     ["Cloud"]=""
