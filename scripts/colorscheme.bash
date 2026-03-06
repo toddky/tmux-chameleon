@@ -138,10 +138,11 @@ _tmux_chameleon_path="~/.tmux/plugins/tmux-chameleon"
 size="[#{client_width}x#{client_height}]"
 _tmux_cpu_usage="#($_tmux_chameleon_path/scripts/cpu-usage.bash)"
 host="#($_tmux_chameleon_path/scripts/host.bash)"
+notify="#($_tmux_chameleon_path/scripts/notify-count.bash)"
 memory="#($_tmux_chameleon_path/scripts/mem-usage.bash)"
 time="#[fg=$tmux_white][#(date +%H:%M)]#[fg=default]"
 tmux_version="[#{version}]"
-tmux set-option -g status-right "$memory$_tmux_cpu_usage$size$tmux_version$host$time"
+tmux set-option -g status-right "$notify$memory$_tmux_cpu_usage$size$tmux_version$host$time"
 tmux set-option -g status-right-length 60
 
 
