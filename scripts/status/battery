@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# USAGE: battery.bash
+# USAGE: battery
 # DESCRIPTION: Print the battery percentage as a tmux status segment (macOS only).
 
 if ! command -v pmset &>/dev/null; then

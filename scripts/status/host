@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# USAGE: host.bash
+# USAGE: host
 # DESCRIPTION: Print the short hostname, or the LSF job id inside a batch job, as a colored tmux status segment.
 
 host="$(hostname -s)"

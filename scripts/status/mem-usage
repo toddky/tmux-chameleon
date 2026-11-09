@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# USAGE: mem-usage.bash
+# USAGE: mem-usage
 # DESCRIPTION: Print used and total memory in GB as a tmux status segment.
 
 # Used matches free(1): total minus free, buffers, and reclaimable cache, with shared memory counted as used.

@@ -147,12 +147,12 @@ tmux set-window-option -g automatic-rename-format "unnamed"
 # ==============================================================================
 # STATUS BAR RIGHT
 # ==============================================================================
-notify="#($plugin_dir/scripts/notify-count.bash)"
-memory="#($plugin_dir/scripts/mem-usage.bash)"
-cpu_usage="#($plugin_dir/scripts/cpu-usage.bash)"
+notify="#($plugin_dir/scripts/status/notify-count)"
+memory="#($plugin_dir/scripts/status/mem-usage)"
+cpu_usage="#($plugin_dir/scripts/status/cpu-usage)"
 size="[#{client_width}x#{client_height}]"
 tmux_version="[#{version}]"
-host="#($plugin_dir/scripts/host.bash)"
+host="#($plugin_dir/scripts/status/host)"
 time="[#(date +%H:%M)]"
 tmux set-option -g status-right "$notify$memory$cpu_usage$size$tmux_version$host$time"
 tmux set-option -g status-right-length 60

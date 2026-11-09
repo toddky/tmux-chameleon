@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# USAGE: notify-count.bash
+# USAGE: notify-count
 # DESCRIPTION: Print how many live panes have a pending notification as a tmux status segment.
 shopt -s nullglob
 

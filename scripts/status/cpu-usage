@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# USAGE: cpu-usage.bash
+# USAGE: cpu-usage
 # DESCRIPTION: Print CPU usage over the next second as a colored tmux status segment.
 
 # ==============================================================================

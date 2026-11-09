@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# USAGE: weather.bash
+# USAGE: weather
 # DESCRIPTION: Print the current Austin weather from wttr.in as a tmux status segment.
 # https://github.com/chubin/wttr.in
 
