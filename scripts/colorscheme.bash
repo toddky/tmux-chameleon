@@ -15,24 +15,20 @@ fi
 # ==============================================================================
 # ENVIRONMENT
 # ==============================================================================
-# Each colorscheme lists: white lightest light medium dark darkest.
-red='15 181 203 9 160 52'
-yellow='15 229 227 190 11 94'
-green='15 156 82 46 70 22'
-blue='15 159 87 39 33 26'
-purple='15 147 141 129 93 53'
-black='239 243 249 249 243 239'
+source "$(dirname "${BASH_SOURCE[0]}")/theme.sh"
 
-default="$blue"
-if [[ -n "$LSB_BATCH_JID" ]]; then
-	default="$yellow"
+if [[ "$colorscheme" == default ]]; then
+	colorscheme=blue
+	if [[ -n "$LSB_BATCH_JID" ]]; then
+		colorscheme=yellow
+	fi
 fi
 
-case "$colorscheme" in
-	red|yellow|green|blue|purple|black|default) ;;
-	*) echo "ERROR: unknown colorscheme: $colorscheme" 1>&2; exit 1;;
-esac
-read -r white lightest light medium dark darkest <<<"${!colorscheme}"
+if [[ -z "${tmux_chameleon_themes[$colorscheme]}" ]]; then
+	echo "ERROR: unknown colorscheme: $colorscheme (choose from: ${tmux_chameleon_theme_names[*]} default)" 1>&2
+	exit 1
+fi
+read -r white lightest light medium dark darkest <<<"${tmux_chameleon_themes[$colorscheme]}"
 
 colour_black_light=colour233
 colour_black_dark=colour232
@@ -75,7 +71,7 @@ function tmux_set_window_style() {
 # PRINT COLORS
 # ==============================================================================
 if ((verbose)); then
-	for color_name in white lightest light medium dark darkest; do
+	for color_name in "${tmux_chameleon_theme_shades[@]}"; do
 		print_color "$color_name"
 	done
 fi
