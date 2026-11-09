@@ -133,8 +133,7 @@ tmux set-window-option -g window-status-current-format "$index:#W$activity$zoome
 # ==============================================================================
 # STATUS BAR RIGHT
 # ==============================================================================
-# TODO: Remove hardcoded paths
-_tmux_chameleon_path="~/.tmux/plugins/tmux-chameleon"
+_tmux_chameleon_path="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 size="[#{client_width}x#{client_height}]"
 _tmux_cpu_usage="#($_tmux_chameleon_path/scripts/cpu-usage.bash)"
 host="#($_tmux_chameleon_path/scripts/host.bash)"
