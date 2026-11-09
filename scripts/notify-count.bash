@@ -1,15 +1,21 @@
 #!/usr/bin/env bash
+# USAGE: notify-count.bash
+# DESCRIPTION: Print how many live panes have a pending notification as a tmux status segment.
 shopt -s nullglob
-notify_dir="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/tmux-notify"
-files=("$notify_dir"/*.txt)
 
-# Only count panes that still exist
-count=0
-for notify_file in "${files[@]}"; do
+notify_dir="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/tmux-notify"
+notify_files=("$notify_dir"/*.txt)
+
+# Notification files can outlive their pane, so only count panes tmux still knows about.
+num_panes=0
+for notify_file in "${notify_files[@]}"; do
 	pane_id="$(basename "$notify_file" .txt)"
 	session_name="$(tmux display-message -t "%${pane_id}" -p '#{session_name}' 2>/dev/null)"
-	[[ -n "$session_name" ]] && (( count++ ))
+	[[ -n "$session_name" ]] || continue
+	((num_panes += 1))
 done
 
-(( count )) || exit 0
-echo "#[fg=colour9,bold][$count]#[fg=default,nobold]"
+if ((num_panes == 0)); then
+	exit 0
+fi
+echo "#[fg=colour9,bold][$num_panes]#[fg=default,nobold]"

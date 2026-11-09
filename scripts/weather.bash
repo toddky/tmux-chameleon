@@ -1,29 +1,41 @@
 #!/usr/bin/env bash
+# USAGE: weather.bash
+# DESCRIPTION: Print the current Austin weather from wttr.in as a tmux status segment.
 # https://github.com/chubin/wttr.in
 
+# ==============================================================================
+# ENVIRONMENT
+# ==============================================================================
 # https://github.com/2KAbhishek/tmux2k/blob/main/scripts/weather.sh
 declare -A weather_icons=(
-    ["Clear"]="󰖙"
-    ["Cloud"]=""
-    ["Drizzle"]="󰖗"
-    ["Fog"]=""
-    ["Haze"]="󰼰"
-    ["Mist"]=""
-    ["Overcast"]=""
-    ["Rain"]=""
-    ["Sand"]=""
-    ["Shower"]=""
-    ["Smoke"]=""
-    ["Snow"]=""
-    ["Sunny"]="󰖙"
-    ["Thunderstorm"]=""
-    ["Tornado"]="󰼸"
-    ["Windy"]="󰖝"
+	["Clear"]="󰖙"
+	["Cloud"]=""
+	["Drizzle"]="󰖗"
+	["Fog"]=""
+	["Haze"]="󰼰"
+	["Mist"]=""
+	["Overcast"]=""
+	["Rain"]=""
+	["Sand"]=""
+	["Shower"]=""
+	["Smoke"]=""
+	["Snow"]=""
+	["Sunny"]="󰖙"
+	["Thunderstorm"]=""
+	["Tornado"]="󰼸"
+	["Windy"]="󰖝"
 )
 
+# Location, condition, temperature, and wind; u selects US units.
 format="%l+-+%C+%t+%w"
-weather="$(curl "http://wttr.in/Austin?u&format=$format" 2>/dev/null)"
-RETVAL=$?
-if ! ((RETVAL)); then
+weather_url="http://wttr.in/Austin?u&format=$format"
+
+
+# ==============================================================================
+# MAIN
+# ==============================================================================
+weather="$(curl --fail --silent "$weather_url")"
+exit_code=$?
+if ((exit_code == 0)); then
 	echo "[$weather]"
 fi

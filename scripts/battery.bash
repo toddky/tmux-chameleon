@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
+# USAGE: battery.bash
+# DESCRIPTION: Print the battery percentage as a tmux status segment (macOS only).
 
-# MacOS only
-which pmset &> /dev/null || exit 0
+if ! command -v pmset &>/dev/null; then
+	exit 0
+fi
 echo -n "[$(pmset -g batt | grep -o '[0-9]\{1,3\}%')]"
-

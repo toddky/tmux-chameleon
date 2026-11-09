@@ -1,51 +1,42 @@
 #!/usr/bin/env bash
+# USAGE: cpu-usage.bash
+# DESCRIPTION: Print CPU usage over the next second as a colored tmux status segment.
 
-# Returns: Total, Idle
-function current-usage() {
-	awk \
-		'/^cpu[[:space:]]/ {
-			for(i=1;i<=NF;i++){sum+=$i}
-			print sum, $5
-		}' \
-		/proc/stat
+# ==============================================================================
+# HELPERS
+# ==============================================================================
+# Prints the total and idle jiffies from the aggregate cpu line.
+function cpu_times() {
+	awk '/^cpu[[:space:]]/ { for (i = 2; i <= NF; i++) total += $i; print total, $5 }' /proc/stat
 }
 
-# Declare arrays
-declare -a usage
-declare -a new_usage
 
-# Default red color
-color=9
-
-# Get usage 1 second apart
-usage=($(current-usage))
-
-# If unable to calculate usage
-if [[ ${#usage[@]} -eq 0 ]]; then
-	echo "#[fg=colour$color][??%]#[fg=default]"
-	exit
-fi
-
-# Wait 1 second before getting new usage
+# ==============================================================================
+# MEASURE USAGE
+# ==============================================================================
+read -r total_start idle_start < <(cpu_times)
 sleep 1
-new_usage=($(current-usage))
+read -r total_end idle_end < <(cpu_times)
 
-# Calculate idle%
-pidle=$(( 100 * (${new_usage[1]}-${usage[1]}) / (${new_usage[0]}-${usage[0]}) ))
+total_delta=$((total_end - total_start))
+if [[ -z "$total_start" || -z "$total_end" ]] || ((total_delta <= 0)); then
+	echo "#[fg=colour9][??%]#[fg=default]"
+	exit 0
+fi
+idle_percent=$((100 * (idle_end - idle_start) / total_delta))
+usage_percent=$((100 - idle_percent))
 
-# Get total percent usage (100% - idle%)
-pusage=$((100-$pidle))
-
-# REVISIT: Another way to get percentag
+# REVISIT: Another way to get percentage
 #percent=$(LC_NUMERIC=en_US.UTF-8 top -bn2 -d 0.01 | grep "Cpu(s)" | tail -1 | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}')
 
-# Format color based on usage
-if [[ $pusage -lt 40 ]]; then
+
+# ==============================================================================
+# PRINT USAGE
+# ==============================================================================
+color=9
+if ((usage_percent < 40)); then
 	color=10
-elif [[ $pusage -lt 80 ]]; then
+elif ((usage_percent < 80)); then
 	color=11
 fi
-
-# Print usage% with tmux format
-echo "#[fg=colour$color][$pusage%]#[fg=default]"
-
+echo "#[fg=colour$color][$usage_percent%]#[fg=default]"

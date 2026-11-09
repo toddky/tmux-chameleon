@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
-# Prints all 256 colors
-for row in $(seq 0 31); do
-	for col in $(seq 0 7); do
-		number=$(expr 8 \* $row + $col)
-		printf "\x1b[38;5;${number}mcolour%-3d " $number
+# USAGE: colour_palette.bash
+# DESCRIPTION: Print all 256 terminal colors with their tmux colour names.
+
+for ((row = 0; row < 32; row++)); do
+	for ((column = 0; column < 8; column++)); do
+		colour_number=$((8 * row + column))
+		printf '\x1b[38;5;%dmcolour%-3d ' "$colour_number" "$colour_number"
 	done
-	printf '\n'
+	printf '\e[0m\n'
 done
