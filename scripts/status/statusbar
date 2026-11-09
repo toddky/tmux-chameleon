@@ -58,9 +58,10 @@ tmux set-window-option -g automatic-rename-format "unnamed"
 notify="#($status_dir/notify-count)"
 memory="#($status_dir/mem-usage)"
 cpu_usage="#($status_dir/cpu-usage)"
+battery="#($status_dir/battery)"
 size="[#{client_width}x#{client_height}]"
 tmux_version="[#{version}]"
 host="#($status_dir/host)"
 time="[#(date +%H:%M)]"
-tmux set-option -g status-right "$notify$memory$cpu_usage$size$tmux_version$host$time"
-tmux set-option -g status-right-length 60
+tmux set-option -g status-right "$notify$memory$cpu_usage$battery$size$tmux_version$host$time"
+tmux set-option -g status-right-length 70
