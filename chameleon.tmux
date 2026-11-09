@@ -15,4 +15,5 @@ function tmux-get-option() {
 
 color=blue
 "$SCRIPTS_DIR/colorscheme.bash" "$color"
+"$SCRIPTS_DIR/status/statusbar"
 
